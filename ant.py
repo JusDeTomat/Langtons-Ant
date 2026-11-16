@@ -28,6 +28,43 @@ class Ant:
     def direction(self):
         return DIR[self.d]
 
+    @classmethod
+    def from_layout(cls, black=(), pos=(0, 0), d=1):
+        a = cls()
+        a.grid = {}
+        a.black = 0
+        a.pos = a.prev = tuple(pos)
+        a.d = d & 3
+        a.cell(a.pos)
+        for p in black:
+            a.set_color(tuple(p), Color.BLACK)
+        return a
+
+    def export(self):
+        black = frozenset(p for p, c in self.grid.items() if c.color is Color.BLACK)
+        return black, self.pos, self.d
+
+    def cell(self, pos):
+        c = self.grid.get(pos)
+        if c is None:
+            c = self.grid[pos] = Case(pos)
+        return c
+
+    def set_color(self, pos, color):
+        c = self.cell(pos)
+        if c.color is not color:
+            c.color = color
+            self.black += 1 if color is Color.BLACK else -1
+        if color is Color.WHITE and c.last < 0 and pos != self.pos:
+            del self.grid[pos]
+
+    def place(self, pos):
+        self.pos = self.prev = tuple(pos)
+        self.cell(self.pos)
+
+    def rotate(self, k=1):
+        self.d = (self.d + k) & 3
+
     def update(self):
         case = self.grid[self.pos]
         if case.color is Color.BLACK:
