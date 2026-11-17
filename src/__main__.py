@@ -1,7 +1,7 @@
 import math
 import pygame
-from ant import Ant
-from enum_color import Color
+from src.ant import Ant
+from src.enum_color import Color
 
 WIN_SIZE = (1180, 780)
 FPS = 60

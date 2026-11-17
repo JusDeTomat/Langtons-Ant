@@ -1,4 +1,4 @@
-from enum_color import Color
+from src.enum_color import Color
 
 
 class Case():

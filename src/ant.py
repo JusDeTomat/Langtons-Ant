@@ -1,6 +1,6 @@
 from enum import Enum
-from case import Case
-from enum_color import Color
+from src.case import Case
+from src.enum_color import Color
 
 
 class Direction(Enum):
